@@ -1,50 +1,48 @@
- -- M39 Flyer 
- -- Types: 
+ -- The bullet dispersion = 8 mil diameter 80%, Page 223 F-5E-34-1-1 1 aug 1979 , rev 1980 march "Acceptable Dispersion Pattern is 80 of rounds must hit in 8 mil circle"  
+ -- Link to Page 223 F-5E-34-1-1 1 aug 1979 , rev 1980 march https://archive.org/details/T.O.1F5E34111980NNWeaponsDelivery/page/n222/mode/1up?view=theater
+ -- To convert the dispersion rating, 8 mil 80% to DCS value we do some math 
+ -- 80 % Radius = sigma * sqrt(-2*ln(1-0.80) = sigma * 1.7941 =  K80, where sigma is = std dev of dispersion. 
+ -- The Diameter of the 80% dispersion circle is 8 mils
+ -- Therefore, sigma is = 80% radius / K_80, = sigma = 4 / 1.1794 = 2.23 mils
+ -- Sigma = 2.23 mils
+ -- DCS Dispersion parameter Da0, is = to Error Probable which is = 0.6745*sigma. And Da0 is given in rads.
+ -- Da0 = 0.00154, Will Result in Dispersion pattern of 8 mils 80%. as 2.23*0.0674*0.001 = 0.00154
+ -- M39 Projectiles V0, and weights changed to match sources
+ -- All Bullets are Tracers For Testing 
+ -- M39 Bullet Type and Projectile Name 
  -- API = M53A, 
  -- HE = M56,  
  -- HEI M56A1, 
- -- HPT = M54,
+ -- HEIT = M54,
  -- TP = 55A1,
- -- Da0 = 0.00154, Will Result in Dispersion pattern of 8 mils 80%. Explained below.
- -- Dispersion 8 mil diameter 80%  Page 223 F-5E-34-1-1 1 aug 1979 , rev 1980 march "Acceptable Dispersion Pattern is 80 of rounds must hit in 8 mil circle"  
- -- 80 % Radius  = sqrt(-2*ln(1-0.80) = K80 = 1.7941 sigma, where sigma is = std dev of dispersion. 
- -- Therefore, sigma  is = 80% radius / K_80, or sigma = 4 / 1.1794
- -- Sigma = 2.23 mils
- -- DCS Dispersion parameter Da0, is = Range Error Probable = 0.6745*sigma and is given in rads.
- -- To model at 8 mil , Da0 = (2.23*0.6745)/1000
- --  Da0 = 0.00154, Will Result in Dispersion pattern of 8 mils 80%.
  -- F-5E Weapon Manual Projectile Types, Page 98
  -- TP = M55
  -- API = M53
  -- HEI = M56
- -- HEIT = XM242
- -- MV 3250 FPS / 990 MPS
- -- M39A3 TM 43-0001
+ -- HEIT = XM242 
+ -- M39A3 data from TM 43-0001
  -- M56A3 https://books.google.com/books?id=f5hZuowkbhgC&newbks=1&newbks_redir=0&dq=ARMY%20AMMUNITION%20DATA%20SHEETS.&pg=SA14-PA31#v=onepage&q&f=false
  -- Filler Weight HE 165 Grains
  -- Filler Weight HE KG = Grains * 15430 =0.0106918
  -- Filler Weight Incendiary Grains = 20
  -- Filler Weight Incendiary KG = 0.0012958
- -- Filler Weight total KG =0.01198
- -- V 3380 FPS @ 78 Feet Page 97
- -- 3428 MV / 1045 mps = M61 Vulcan https://apps.dtic.mil/sti/tr/pdf/ADA100963.pdf
- -- Tracer times set to go on at +0.332 Second and off at +0.4.
- -- Tracers will be on at a range of 1000 to 1200 feet 
- -- Data From Public Air to Air Firing Table for M61 https://apps.dtic.mil/sti/pdfs/AD0923589.pdf
+ -- Filler Weight total KG = 0.01198
+ -- V0 = 1006 mps / 3300 fps: Source: Tm-9-1901-1 Ammo for Aircraft  Page 33 https://www.bulletpicker.com/pdf/TM-9-1901-1.pdf
+ -- Tracer Off 0.82 seconds, range 2800 feet, at 10kfeet and 400 KTS, Source 20MM Ballistic Tables Page 223 F-5E Weapon Deliv Manual
  -- Da0 = 0.00154, Will Result in Dispersion pattern of 8 mils 80%.
- -- Shot Heat Off
+ -- Shot Heat Off to test dispersion.
  -- Added Red Tracers To TP Tracer Ammo
 declare_weapon({category = CAT_SHELLS,name = "M39_20_HEI", user_name=_("M39_20_HEI"),
   model_name     = "tracer_bullet_red", --Was white
   projectile     = "HE",
-  v0    		 = 990.0,
+  v0    		 = 1006, --base 990 / 3250 FPS
   Dv0   		 = 0.0000,
-  Da0     		 = 0.00154,
+  Da0     		 = 0.00154, -- base 0.0022
   Da1     		 = 0.0,
   mass      	 = 0.102,
   round_mass 	 = 0.254+0.058,		-- round + link
   cartridge_mass = 0.058,			-- links are collected
-  explosive      = 0.117,-- old = 0.11 
+  explosive      = 0.01198,-- old = 0.11 
   life_time      = 31.0,
   caliber        = 20.0,
   s              = 0.0,
@@ -54,7 +52,7 @@ declare_weapon({category = CAT_SHELLS,name = "M39_20_HEI", user_name=_("M39_20_H
   cx       		 = {0.5,1.27,0.70,0.200,2.30},
   k1       		 = 2.0e-08,
   tracer_on      = 0,
-  tracer_off     = -1,
+  tracer_off     = 0.82,
   scale_tracer   = 1,
   scale_smoke    = 0.2, 
   smoke_opacity  = 0.3,
@@ -69,7 +67,7 @@ declare_weapon({category = CAT_SHELLS,name = "M39_20_HEI", user_name=_("M39_20_H
    declare_weapon({category = CAT_SHELLS,name = "M39_20_HEI_T", user_name=_("M39_20_HEI_T"),
   model_name     = "tracer_bullet_yellow",
   projectile     = "HE",
-  v0    		 = 990.0,
+  v0    		 = 1006,
   Dv0   		 = 0.0000,
   Da0     		 = 0.00154,
   Da1     		 = 0.0,
@@ -86,7 +84,7 @@ declare_weapon({category = CAT_SHELLS,name = "M39_20_HEI", user_name=_("M39_20_H
   cx       		 = {0.5,1.27,0.70,0.200,2.30},
   k1       		 = 2.0e-08,
   tracer_on      = 0.0,
-  tracer_off     = 5,
+  tracer_off     = 0.85,
   scale_tracer   = 1,
   scale_smoke    = 0.1, 
   smoke_opacity  = 0.3,
@@ -98,7 +96,7 @@ declare_weapon({category = CAT_SHELLS,name = "M39_20_HEI", user_name=_("M39_20_H
 declare_weapon({category = CAT_SHELLS,name = "M39_20_API", user_name=_("M39_20_API"),
   model_name     = "tracer_bullet_red",
   projectile      = "AP",
-  v0    		 = 990.0,
+  v0    		 = 1006,
   Dv0   		 = 0.0000,
   Da0     		 = 0.00154,
   Da1     		 = 0.0,
@@ -115,7 +113,7 @@ declare_weapon({category = CAT_SHELLS,name = "M39_20_API", user_name=_("M39_20_A
   charTime       = 0,
   cx       		 = {0.5,1.27,0.70,0.200,2.30},
   k1       		 = 2.0e-08,
-  tracer_on      = 0,
+  tracer_on      = 0.85,
   tracer_off     = -1,
   scale_tracer   = 1,
   scale_smoke    = 0.3, 
@@ -128,7 +126,7 @@ declare_weapon({category = CAT_SHELLS,name = "M39_20_API", user_name=_("M39_20_A
   
 declare_weapon({category = CAT_SHELLS,name = "M39_20_TP", user_name=_("M39_20_TP"),
   model_name     = "tracer_bullet_red",
-  v0    		 = 990.0,
+  v0    		 = 1006,
   Dv0   		 = 0.0000,
   Da0     		 = 0.00154,
   Da1     		 = 0.0,
@@ -145,7 +143,7 @@ declare_weapon({category = CAT_SHELLS,name = "M39_20_TP", user_name=_("M39_20_TP
   cx       		 = {0.5,1.27,0.70,0.200,2.30},
   k1       		 = 2.0e-08,
   tracer_on      = 0,
-  tracer_off     = -1,
+  tracer_off     = 0.85,
   scale_tracer   = 0,
   scale_smoke    = 1.0, 
   smoke_opacity  = 0.3,
@@ -157,7 +155,7 @@ declare_weapon({category = CAT_SHELLS,name = "M39_20_TP", user_name=_("M39_20_TP
   
 declare_weapon({category = CAT_SHELLS,name = "M39_20_TP_T", user_name=_("M39_20_TP_T"), 
   model_name     = "tracer_bullet_red",
-  v0    		 = 990.0,
+  v0    		 = 1006,
   Dv0   		 = 0.0000,
   Da0     		 = 0.00154,
   Da1     		 = 0.0,
@@ -174,7 +172,7 @@ declare_weapon({category = CAT_SHELLS,name = "M39_20_TP_T", user_name=_("M39_20_
   cx       		 = {0.5,1.27,0.70,0.200,2.30},
   k1       		 = 2.0e-08,
   tracer_on      = 0,
-  tracer_off     = 5,
+  tracer_off     = 0.85,
   scale_tracer   = 1,
   scale_smoke    = 1.0, 
   smoke_opacity  = 0.3,
@@ -253,7 +251,7 @@ local tips =
 	{ CLSID = "{AIM-9J}"							  ,												Cx_gain = 0.302},			-- AIM_9J
 	{ CLSID = "{AIM-9P5}"							  ,												Cx_gain = 0.302},			-- AIM_9P5
 	{ CLSID = "{AIM-9P3}"							  ,												Cx_gain = 0.302},			-- AIM_9P3
-	{ CLSID = "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",											    Cx_gain = 0.302},			-- AIM_9P				-- rev.177067
+	{ CLSID = "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",											    Cx_gain = 0.302},			-- AIM_9P			
 	{ CLSID = "{A4BCC903-06C8-47bb-9937-A30FEDB4E741}",												Cx_gain = 0.22},			-- Smokewinder red
 	{ CLSID = "{A4BCC903-06C8-47bb-9937-A30FEDB4E742}",												Cx_gain = 0.22},			-- Smokewinder green
 	{ CLSID = "{A4BCC903-06C8-47bb-9937-A30FEDB4E743}",												Cx_gain = 0.22},			-- Smokewinder blue
@@ -307,6 +305,7 @@ local inboard =
 	{ CLSID = "{7A44FF09-527C-4B7E-B42B-3F111CFE50FB}", arg_value = 0.0, add_mass = wingInbdPylonMass	},	-- Mk-83
 	{ CLSID = "{00F5DAC4-0466-4122-998F-B1A298E34113}", arg_value = 0.0, add_mass = wingInbdPylonMass	},	-- M117
 	{ CLSID = "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}", arg_value = 0.0, add_mass = wingInbdPylonMass	},	-- GBU-12
+	{ CLSID = "{0D33DDAE-524F-4A4E-B5B8-621754FE3ADE}", arg_value = 0.0, add_mass = wingInbdPylonMass	},	-- GBU-16                                                                                                               
 	{ CLSID = "{CBU-52B}",								arg_value = 0.0, add_mass = wingInbdPylonMass	},	-- CBU-52
 	{ CLSID = "{FC85D2ED-501A-48ce-9863-49D468DDD5FC}", arg_value = 0.0, add_mass = wingInbdPylonMass	},	-- LAU-68-MK1
 	{ CLSID = "{174C6E6D-0C3D-42ff-BCB3-0853CB371F5C}", arg_value = 0.0, add_mass = wingInbdPylonMass	},	-- LAU-68-MK5
@@ -347,6 +346,9 @@ local centerline =
 	{ CLSID = "{7A44FF09-527C-4B7E-B42B-3F111CFE50FB}", arg_value = 0.0, add_mass = ctrPylonMass	},	-- Mk-83
 	{ CLSID = "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}", arg_value = 0.0, add_mass = ctrPylonMass	},	-- Mk-84
 	{ CLSID = "{00F5DAC4-0466-4122-998F-B1A298E34113}", arg_value = 0.0, add_mass = ctrPylonMass	},	-- M117
+    { CLSID = "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}", arg_value = 0.0, add_mass = ctrPylonMass	},	-- GBU-12
+	{ CLSID = "{0D33DDAE-524F-4A4E-B5B8-621754FE3ADE}", arg_value = 0.0, add_mass = ctrPylonMass	},	-- GBU-16
+	{ CLSID	= "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}", arg_value = 0.5, add_mass = ctrPylonMass	},	-- GBU-10                                                                                                                                                                                                                                                                                                                   
 	{ CLSID = "{MER-5E_MK82x5}",						arg_value = 0.0,attach_point_position = {0.0, -0.005, 0.0}, add_mass = ctrPylonMass	},	-- MER-5E 5xMk-82
 	{ CLSID = "{MER-5E_Mk82SNAKEYEx5}",					arg_value = 0.0,attach_point_position = {0.0, -0.005, 0.0}, add_mass = ctrPylonMass	},	-- MER-5E 5xMk-82 Snakeye
 	{ CLSID = "{CBU-52B}",								arg_value = 0.0, add_mass = ctrPylonMass	},	-- CBU-52
@@ -395,17 +397,17 @@ local base_F_5 = {
 	CanopyGeometry 								=	makeAirplaneCanopyGeometry(LOOK_GOOD, LOOK_GOOD, LOOK_BAD),
 	Categories 									=	{"{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}", "Interceptor",},
 
-	nose_gear_pos 							 =	{ 4.406, -1.898, 0},
+	nose_gear_pos 							 =	{ 4.465, -1.92, 0},
 	nose_gear_amortizer_direct_stroke        =	0,
-	nose_gear_amortizer_reversal_stroke      = -0.502,  -- up 
-	nose_gear_amortizer_normal_weight_stroke = -0.050-0.325,
+	nose_gear_amortizer_reversal_stroke      = -0.529,  -- up 
+	nose_gear_amortizer_normal_weight_stroke = -0.050-0.306,
 	nose_gear_wheel_diameter				 =	0.460,
-	nose_gear_hiking						 =	0.325,
+	nose_gear_hiking						 =	0.306,
 	
-	main_gear_pos 							 = 	{-0.8546, -1.702458, 1.914661},
+	main_gear_pos 							 = 	{-0.758, -1.712, 1.873},
 	main_gear_amortizer_direct_stroke		=  0,
-	main_gear_amortizer_reversal_stroke		= -0.215084, --  up 
-	main_gear_amortizer_normal_weight_stroke = -0.165,
+	main_gear_amortizer_reversal_stroke		= -0.291, --  up 
+	main_gear_amortizer_normal_weight_stroke = -0.223,
 	main_gear_wheel_diameter				=	0.600,
 
 	radar_can_see_ground						=	false,
@@ -685,13 +687,12 @@ local base_F_5 = {
 		["STABILIZER_L_IN"]			= {args = {240}, critical_damage = 2},-- STABILIZER_L_IN
 		["STABILIZER_R_IN"]			= {args = {238}, critical_damage = 2},-- STABILIZER_R_IN
 		["HOOK"]					= {critical_damage = 2},
-		["Box807"]					= {critical_damage = 2},		                                    
 	}),-- end of Damage
 
 	DamageParts 	=
 	{
-			[1] = "f-5e_oblomok_wing_l",
-			[2] = "f-5e_oblomok_wing_r",
+			[1] = "f-5e_oblomok_wing_r",
+			[2] = "f-5e_oblomok_wing_l",
 	},
 
 	HumanRadio 		=
@@ -807,10 +808,10 @@ local base_F_5 = {
 	fires_pos =
 	{
 		[1] = 	{-1.801,	-0.633,	0}, -- offsets: length, height, witdth 
-		[2] = 	{-0.961,	-0.311,	1.9}, -- / at least some fuel lines are here
-		[3] = 	{-0.961,	-0.311,	-1.9}, -- / at least some fuel lines are here
-		[4] = 	{-1.42,		-0.311,	2.75}, -- / at least some fuel lines are here
-		[5] = 	{-1.42,		-0.311,	-2.75}, -- / at least some fuel lines are here
+		--[2] = 	{-0.961,	-0.311,	1.9}, -- /no fuel
+		--[3] = 	{-0.961,	-0.311,	-1.9}, -- /no fuel
+		--[4] = 	{-1.42,		-0.311,	2.75}, -- /no fuel
+		--[5] = 	{-1.42,		-0.311,	-2.75}, -- /no fuel
 		--[6] = 	{-1.72,		-0.311,	3.57}, -- /no fuel
 		--[7] = 	{-1.72,		-0.311,	-3.57}, -- /no fuel
 		[8] = 	{-5.922,	-0.084,	0.226},
@@ -926,27 +927,27 @@ local base_F_5 = {
 						lights = {
 							{
 								typename = "argumentlight", argument = 193,
-								controller = "Strobe", mode = 0, period = 1.03, flash_time = 0.77,
+								controller = "Strobe", mode = 0, period = 0.744, flash_time = 0.522, power_up_t = 0.33, cool_down_t = 0.33,
 							},
 							{
 								typename = "Omni", connector = "BANO_4", pos_correction = {0.0, 0.1, 0.0},
 								proto = lamp_prototypes.ANO_3_Bl, range = 2.0,
-								controller = "Strobe", mode = 0, period = 1.03, flash_time = 0.77,
+								controller = "Strobe", mode = 0, period = 0.744, flash_time = 0.522, power_up_t = 0.33, cool_down_t = 0.222,
 							},
 							{
 								typename = "Spot", connector = "BANO_4", dir_correction = {elevation = math.rad(-135.0)},
 								proto = lamp_prototypes.ANO_3_Bl, angle_max = math.rad(150.0), angle_min = math.rad(90.0),
-								controller = "Strobe", mode = 0, period = 1.03, flash_time = 0.77,
+								controller = "Strobe", mode = 0, period = 0.744, flash_time = 0.522, power_up_t = 0.33, cool_down_t = 0.222,
 							},
 							{
 								typename = "Omni", connector = "BANO_020", pos_correction = {0.0, -0.1, 0.0},
 								proto = lamp_prototypes.ANO_3_Bl, range = 2.0,
-								controller = "Strobe", mode = 0, period = 1.03, flash_time = 0.77,
+								controller = "Strobe", mode = 0, period = 0.744, flash_time = 0.522, power_up_t = 0.33, cool_down_t = 0.222,
 							},
 							{
 								typename = "Spot", connector = "BANO_020", dir_correction = {elevation = math.rad(135.0)},
 								proto = lamp_prototypes.ANO_3_Bl, angle_max = math.rad(150.0), angle_min = math.rad(90.0),
-								controller = "Strobe", mode = 0, period = 1.03, flash_time = 0.77,
+								controller = "Strobe", mode = 0, period = 0.744, flash_time = 0.522, power_up_t = 0.33, cool_down_t = 0.222,
 							},
 						},
 					},
@@ -955,17 +956,17 @@ local base_F_5 = {
 						lights = {
 							{
 								typename = "argumentlight", argument = 194,
-								controller = "Strobe", mode = 0, period = 1.03, flash_time = 0.77,
+								controller = "Strobe", mode = 0, period = 0.744, flash_time = 0.52, power_up_t = 0.33, cool_down_t = 0.342,
 							},
 							{
 								typename = "Spot", connector = "BANO_016", dir_correction = {elevation = math.rad(-60.0)},
 								proto = lamp_prototypes.ANO_3_Kr, angle_max = math.rad(150.0), angle_min = math.rad(90.0),
-								controller = "Strobe", mode = 0, period = 1.03, flash_time = 0.77,
+								controller = "Strobe", mode = 0, period = 0.744, flash_time = 0.52, power_up_t = 0.33, cool_down_t = 0.228,
 							},
 							{
 								typename = "Spot", connector = "BANO_019", dir_correction = {elevation = math.rad(-60.0)},
 								proto = lamp_prototypes.ANO_3_Zl, angle_max = math.rad(150.0), angle_min = math.rad(90.0),
-								controller = "Strobe", mode = 0, period = 1.03, flash_time = 0.77,
+								controller = "Strobe", mode = 0, period = 0.744, flash_time = 0.52, power_up_t = 0.33, cool_down_t = 0.228,
 							},
 						},
 					},
@@ -1124,7 +1125,8 @@ base_F_5.mechanimations.CentralStrut = {
 				},
 			},
 		}
-
+        
+        
 if rewrite_settings then 
 	for i,o in pairs(rewrite_settings) do
 		base_F_5[i] = o
