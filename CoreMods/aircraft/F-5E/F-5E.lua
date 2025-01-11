@@ -52,7 +52,7 @@ declare_weapon({category = CAT_SHELLS,name = "M39_20_HEI", user_name=_("M39_20_H
   cx       		 = {0.5,1.27,0.70,0.200,2.30},
   k1       		 = 2.0e-08,
   tracer_on      = 0,
-  tracer_off     = 0.82,
+  tracer_off     = -1,
   scale_tracer   = 1,
   scale_smoke    = 0.2, 
   smoke_opacity  = 0.3,
@@ -84,7 +84,7 @@ declare_weapon({category = CAT_SHELLS,name = "M39_20_HEI", user_name=_("M39_20_H
   cx       		 = {0.5,1.27,0.70,0.200,2.30},
   k1       		 = 2.0e-08,
   tracer_on      = 0.0,
-  tracer_off     = 0.85,
+  tracer_off     = 4,
   scale_tracer   = 1,
   scale_smoke    = 0.1, 
   smoke_opacity  = 0.3,
@@ -123,14 +123,14 @@ declare_weapon({category = CAT_SHELLS,name = "M39_20_API", user_name=_("M39_20_A
   _unique_resource_name = "weapons.shells.M39_20_API",
   
   }) 
-  
+ --M55 Ball Page 38 https://www.bulletpicker.com/pdf/TM-9-1901-1.pdf
 declare_weapon({category = CAT_SHELLS,name = "M39_20_TP", user_name=_("M39_20_TP"),
   model_name     = "tracer_bullet_red",
   v0    		 = 1006,
   Dv0   		 = 0.0000,
   Da0     		 = 0.00154,
   Da1     		 = 0.0,
-  mass      	 = 0.102,
+  mass      	 = 0.0997, -- Old 0.102
   round_mass 	 = 0.254+0.058,		-- round + link
   cartridge_mass = 0.058,			-- links are collected
   explosive      = 0.000,
@@ -143,7 +143,7 @@ declare_weapon({category = CAT_SHELLS,name = "M39_20_TP", user_name=_("M39_20_TP
   cx       		 = {0.5,1.27,0.70,0.200,2.30},
   k1       		 = 2.0e-08,
   tracer_on      = 0,
-  tracer_off     = 0.85,
+  tracer_off     = -1,
   scale_tracer   = 0,
   scale_smoke    = 1.0, 
   smoke_opacity  = 0.3,
@@ -172,7 +172,7 @@ declare_weapon({category = CAT_SHELLS,name = "M39_20_TP_T", user_name=_("M39_20_
   cx       		 = {0.5,1.27,0.70,0.200,2.30},
   k1       		 = 2.0e-08,
   tracer_on      = 0,
-  tracer_off     = 0.85,
+  tracer_off     = 4,
   scale_tracer   = 1,
   scale_smoke    = 1.0, 
   smoke_opacity  = 0.3,
